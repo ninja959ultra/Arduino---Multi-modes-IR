@@ -38,6 +38,12 @@ Button 5: Turns ON the white LED and turns OFF the green LED.
 This project demonstrates how to create a remote-controlled system that switches between sensor-driven modes and manual control, with clear LED and buzzer feedback for each interaction.
 
 
+# Pictures:
+![img1](Arduino_prject_multi_mode_ir_PART1.jpeg)
+![img2](Arduino_prject_multi_mode_ir_PART2.jpeg)
+![img3](Arduino_prject_multi_mode_ir_PART3.jpeg)
+![img4](Arduino_prject_multi_mode_ir_PART4.jpeg)
+
 
 # Code below:
 ```cpp
