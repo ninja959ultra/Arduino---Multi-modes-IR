@@ -1,6 +1,43 @@
 # Arduino---Multi-modes-IR
 
 
+# Description:
+This project is an Arduino-based multi-mode control system operated via an infrared (IR) remote. It features three distinct modes, each activated by a specific button on the remote. The system includes sensors and LEDs to indicate and respond to environmental inputs or manual commands.
+
+---
+
+Mode 1: Sound Detection Mode (Activated by Button 1)
+
+Activates the sound sensor and its indicator LED.
+
+When a sound exceeds a certain threshold:
+The buzzer and assigned LED flash ON and OFF three times as an alert.
+
+---
+
+Mode 2: Light Detection Mode (Activated by Button 2)
+
+Activates the light sensor and its indicator LED.
+
+If the ambient light level drops below a set threshold:
+
+The system triggers an alert:
+The buzzer and assigned LED flash three times.
+
+---
+
+Mode 3: Manual Control Mode (Activated by Button 3)
+
+Enables manual control using buttons 4 and 5:
+Button 4: Turns ON the green LED and turns OFF the white LED.
+
+Button 5: Turns ON the white LED and turns OFF the green LED.
+
+---
+
+This project demonstrates how to create a remote-controlled system that switches between sensor-driven modes and manual control, with clear LED and buzzer feedback for each interaction.
+
+
 
 # Code below:
 ```cpp
@@ -19,7 +56,7 @@ byte buzzer = 10;
 
 // analog values
 int voice = A5;
-int bightness = A0;
+int brightness = A0;
 
 // global variables
 int voiceValue;
@@ -68,12 +105,11 @@ void voiceMode(){
 
   voiceValue = analogRead(voice);
 
-  if (voiceValue > 500){
-
+  if (voiceValue > 535){
     alert(yellowLED);
+  }
 
-    }
-
+  Serial.println(voiceValue);
 }
 
 
@@ -85,11 +121,11 @@ void brightnessMode(){
 
   brightnessValue = analogRead(brightness);
 
-  if (brightnessValue < 200){
-
+  if (brightnessValue < 250){
     alert(blueLED);
     }
 
+  Serial.println(brightnessValue);
 }
 
 void manualMode(){
@@ -104,7 +140,7 @@ void manualMode(){
     }
 
 
-else if (signal == 64) {  // button 5
+  else if (signal == 64) {  // button 5
     digitalWrite(whiteLED, HIGH);
     digitalWrite(greenLED, LOW);
     }
@@ -121,6 +157,7 @@ void setup() {
   pinMode(redLED, OUTPUT);
   pinMode(greenLED, OUTPUT);
   pinMode(whiteLED, OUTPUT);
+  pinMode(buzzer, OUTPUT);
   ir.enableIRIn();
 }
 
@@ -134,20 +171,20 @@ void loop() {
     delay(300);
   }
 
-  if (signal == 69) {
+  if (signal == 69 && !(ir.decodedIRData.flags & IRDATA_FLAGS_IS_REPEAT)) {
     voiceStatus = true;
     brightnessStatus = false;
     manualStatus = false;
   }
 
 
-  else if (signal == 70) {
+  else if (signal == 70 && !(ir.decodedIRData.flags & IRDATA_FLAGS_IS_REPEAT)) {
     voiceStatus = false;
     brightnessStatus = true;
     manualStatus = false;
 }
 
-  else if (signal == 71) {
+  else if (signal == 71 && !(ir.decodedIRData.flags & IRDATA_FLAGS_IS_REPEAT)) {
     voiceStatus = false;
     brightnessStatus = false;
     manualStatus = true;
@@ -168,4 +205,6 @@ void loop() {
   }
 
 } 
+
+
 ```
