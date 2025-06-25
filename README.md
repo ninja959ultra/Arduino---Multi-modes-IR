@@ -79,8 +79,7 @@ bool manualStatus = false;
 void turnOffLEDs(byte LEDs[], byte size){
 
   for (byte i=0; i<size; i++){
-
-  digitalWrite(LEDs[i], LOW);
+    digitalWrite(LEDs[i], LOW);
   }
 
 }
